@@ -1,3 +1,7 @@
 from django.contrib import admin
+from places.models import TourCompany
 
-# Register your models here.
+
+@admin.register(TourCompany)
+class TourCompanyAdmin(admin.ModelAdmin):
+    list_display = ('title',)
