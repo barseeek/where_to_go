@@ -1,5 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 
 from places.models import TourCompany
 
@@ -21,7 +22,7 @@ def index(request):
             "properties": {
                 "title": company.title,
                 "placeId": f"tour_{company.id}",
-                "detailsUrl": "static/places/moscow_legends.json"
+                "detailsUrl": reverse(places, args=[company.id])
             }
         }
         places_json['features'].append(new_feature)
