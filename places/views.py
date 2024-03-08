@@ -6,32 +6,23 @@ from places.models import TourCompany
 
 def index(request):
     places_json = {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [37.62, 55.793676]
-          },
-          "properties": {
-            "title": "«Легенды Москвы",
-            "placeId": "moscow_legends",
-            "detailsUrl": "static/places/moscow_legends.json"
-          }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [37.64, 55.753676]
-          },
-          "properties": {
-            "title": "Крыши24.рф",
-            "placeId": "roofs24",
-            "detailsUrl": "static/places/roofs24.json"
-          }
-        }
-      ]
+        "type": "FeatureCollection",
+        "features": []
+
     }
+    companies = TourCompany.objects.all()
+    for company in companies:
+        new_feature = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [company.lng, company.lat]
+            },
+            "properties": {
+                "title": company.title,
+                "placeId": f"tour_{company.id}",
+                "detailsUrl": "static/places/moscow_legends.json"
+            }
+        }
+        places_json['features'].append(new_feature)
     return render(request, 'index.html', context={"places": places_json})
