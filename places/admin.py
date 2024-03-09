@@ -14,6 +14,7 @@ class TourCompanyInline(SortableInlineAdminMixin, admin.TabularInline):
             "<img src='{url}' width=200px>",
             url=obj.image.url)
 
+
 @admin.register(TourCompany)
 class TourCompanyAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ('title',)
