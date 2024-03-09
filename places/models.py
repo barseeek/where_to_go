@@ -11,6 +11,10 @@ class TourCompany(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Tour Company'
+        verbose_name_plural = 'Tour Companies'
+
 
 class TourImage(models.Model):
     tour_company = models.ForeignKey(TourCompany, related_name='images', on_delete=models.CASCADE)
@@ -23,3 +27,4 @@ class TourImage(models.Model):
     class Meta:
         verbose_name = 'Tour Image'
         verbose_name_plural = 'Tour Images'
+        ordering = ('position',)

@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.html import format_html
-
+from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminBase
 from places.models import TourCompany, TourImage
 
 
-class TourCompanyInline(admin.TabularInline):
+class TourCompanyInline(SortableInlineAdminMixin, admin.TabularInline):
     model = TourImage
     extra = 1
     readonly_fields = ["tour_image",]
@@ -15,9 +15,9 @@ class TourCompanyInline(admin.TabularInline):
             url=obj.image.url)
 
 @admin.register(TourCompany)
-class TourCompanyAdmin(admin.ModelAdmin):
+class TourCompanyAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ('title',)
-    inlines = [TourCompanyInline]
+    inlines = [TourCompanyInline,]
 
 
 @admin.register(TourImage)
