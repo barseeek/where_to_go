@@ -15,9 +15,10 @@ class TourCompany(models.Model):
 class TourImage(models.Model):
     tour_company = models.ForeignKey(TourCompany, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField()
+    position = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.id} {self.tour_company.title}"
+        return f"{self.position} {self.tour_company.title}"
 
     class Meta:
         verbose_name = 'Tour Image'
