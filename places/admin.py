@@ -11,7 +11,7 @@ class TourCompanyInline(SortableInlineAdminMixin, admin.TabularInline):
     fields = ('image', 'tour_image', 'position',)
     def tour_image(self, obj):
         return format_html(
-            "<img src='{url}' width=200px>",
+            "<img src='{url}' height=200px>",
             url=obj.image.url)
 
 
