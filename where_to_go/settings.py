@@ -1,3 +1,4 @@
+
 import os
 from pathlib import Path
 
@@ -114,17 +115,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = env.str('STATIC_ROOT')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+    ]
 
-]
+STATIC_ROOT = env.str('STATIC_ROOT')
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = env.str('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGGING_DIR = 'logging'
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
 
 LOGGING = {
     "version": 1,
@@ -133,7 +141,7 @@ LOGGING = {
         "file": {
             "level": env.str('DJANGO_LOG_LEVEL', 'INFO'),
             "class": "logging.FileHandler",
-            "filename": env.str('DJANGO_LOG_FILE', 'logging/debug.log'),
+            "filename":os.path.join(LOGGING_DIR, env.str('DJANGO_LOG_FILE', 'debug.log')),
         },
     },
     "loggers": {

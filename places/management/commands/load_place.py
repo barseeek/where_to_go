@@ -7,7 +7,6 @@ from places.models import TourCompany, TourImage
 
 
 def create_images(place, images):
-
     for num, link in enumerate(images):
         logging.info(f'Try loading image from {link}')
         try:
@@ -25,6 +24,7 @@ def create_images(place, images):
             logging.error("Failed to load {}, connection error: {}".format(link, e))
         except requests.RequestException as e:
             logging.error("Failed to load {}, requestException error: {}".format(link, e))
+
 
 class Command(BaseCommand):
     help = 'Create places from JSON by URL.'
