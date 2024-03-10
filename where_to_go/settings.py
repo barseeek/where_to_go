@@ -133,7 +133,7 @@ LOGGING = {
         "file": {
             "level": env.str('DJANGO_LOG_LEVEL', 'INFO'),
             "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logging/debug.log"),
+            "filename": env.str('DJANGO_LOG_FILE', 'logging/debug.log'),
         },
     },
     "loggers": {
@@ -141,6 +141,10 @@ LOGGING = {
             "handlers": ["file"],
             "level": env.str('DJANGO_LOG_LEVEL', 'INFO'),
             "propagate": True,
+        },
+        "root": {
+            "handlers": ["file"],
+            "level": env.str('DJANGO_LOG_LEVEL', 'INFO'),
         },
     },
 }
