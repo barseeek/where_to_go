@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str('SECRET_KEY', 'REPLACE_ME')
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.str('DEBUG', 'False')
@@ -74,8 +74,8 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env.str('DATABASE_ENGINE'),
-        'NAME': BASE_DIR / env.str('DATABASE_NAME'),
+        'ENGINE': env.str('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': BASE_DIR / env.str('DATABASE_NAME', 'db.sqlite3'),
     }
 }
 
@@ -119,8 +119,8 @@ if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'static')
     ]
-
-STATIC_ROOT = env.str('STATIC_ROOT')
+if not DEBUG:
+    STATIC_ROOT = env.str('STATIC_ROOT', '/home/django/www-data/example.com/static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = env.str('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
