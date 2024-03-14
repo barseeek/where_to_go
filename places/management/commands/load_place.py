@@ -6,6 +6,17 @@ import logging
 from places.models import TourCompany, TourImage
 
 
+def fetch_url(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+    except requests.ConnectionError as e:
+        logging.error('Connection error: {}'.format(e))
+    except requests.RequestException as e:
+        logging.error('RequestException error: {}'.format(e))
+
+
 def create_images(place, images):
     for num, link in enumerate(images):
         logging.info(f'Try loading image from {link}')
@@ -40,14 +51,11 @@ class Command(BaseCommand):
 
     def handle(self, get_or_create=None, *args, **options):
         url = options['url']
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            payload = response.json()
-        except requests.ConnectionError as e:
-            logging.error('Connection error: {}'.format(e))
-        except requests.RequestException as e:
-            logging.error('RequestException error: {}'.format(e))
+        payload = fetch_url(url)
+        if not payload:
+            logging.error("Can't get json from {}".format(url))
+            return
+
         place, created = TourCompany.objects.get_or_create(
             title=payload['title'],
             description_short=payload['description_short'],
@@ -61,4 +69,3 @@ class Command(BaseCommand):
             create_images(place, payload['imgs'])
         else:
             logging.info('Place already exists:{}'.format(place))
-            return
