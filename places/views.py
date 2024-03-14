@@ -6,34 +6,33 @@ from places.models import TourCompany
 
 
 def index(request):
-    places_json = {
+    locations = {
         'type': 'FeatureCollection',
-        'features': []
-
-    }
-    companies = TourCompany.objects.all()
-    for company in companies:
-        new_feature = {
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [company.lng, company.lat]
-            },
-            'properties': {
-                'title': company.title,
-                'placeId': f'tour_{company.id}',
-                'detailsUrl': reverse(places, args=[company.id])
+        'features': [
+            {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [company.lng, company.lat]
+                },
+                'properties': {
+                    'title': company.title,
+                    'placeId': f'tour_{company.id}',
+                    'detailsUrl': reverse(get_place, args=[company.id])
+                }
             }
-        }
-        places_json['features'].append(new_feature)
-    return render(request, 'index.html', context={'places': places_json})
+            for company in TourCompany.objects.all()
+        ]
+    }
+    return render(request, 'index.html', context={'places': locations})
 
 
-def places(request, place_id):
-    place = get_object_or_404(TourCompany, id=place_id)
-    data = {
+def get_place(request, place_id):
+    place = get_object_or_404(TourCompany.objects.prefetch_related('images'), id=place_id)
+
+    serialized_place = {
         'title': place.title,
-        'imgs': [],
+        'imgs': [image.image.url for image in place.images.all()],
         'short_description': place.short_description,
         'long_description': place.long_description,
         'coordinates': {
@@ -41,11 +40,9 @@ def places(request, place_id):
             'lat': place.lat
         }
     }
-    for image in place.images.all():
-        data['imgs'].append(image.image.url)
 
     return JsonResponse(
-        data,
+        serialized_place,
         json_dumps_params={
             'indent': 2,
             'ensure_ascii': False
