@@ -135,24 +135,24 @@ if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
 
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "file": {
-            "level": env.str('DJANGO_LOG_LEVEL', 'INFO'),
-            "class": "logging.FileHandler",
-            "filename":os.path.join(LOGGING_DIR, env.str('DJANGO_LOG_FILE', 'debug.log')),
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': env.str('DJANGO_LOG_LEVEL', 'INFO'),
+            'class': 'logging.FileHandler',
+            'filename':os.path.join(LOGGING_DIR, env.str('DJANGO_LOG_FILE', 'debug.log')),
         },
     },
-    "loggers": {
-        "django": {
-            "handlers": ["file"],
-            "level": env.str('DJANGO_LOG_LEVEL', 'INFO'),
-            "propagate": True,
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': env.str('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': True,
         },
-        "root": {
-            "handlers": ["file"],
-            "level": env.str('DJANGO_LOG_LEVEL', 'INFO'),
+        'root': {
+            'handlers': ['file'],
+            'level': env.str('DJANGO_LOG_LEVEL', 'INFO'),
         },
     },
 }

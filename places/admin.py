@@ -7,7 +7,7 @@ from places.models import TourCompany, TourImage
 class TourCompanyInline(SortableInlineAdminMixin, admin.TabularInline):
     model = TourImage
     extra = 1
-    readonly_fields = ["tour_image", ]
+    readonly_fields = ['tour_image', ]
     fields = ('image', 'tour_image', 'position',)
 
     def tour_image(self, obj):

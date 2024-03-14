@@ -21,9 +21,9 @@ def create_images(place, images):
             if created:
                 logging.info('Successfully created image {} for place {}'.format(filename, place.title))
         except requests.ConnectionError as e:
-            logging.error("Failed to load {}, connection error: {}".format(link, e))
+            logging.error('Failed to load {}, connection error: {}'.format(link, e))
         except requests.RequestException as e:
-            logging.error("Failed to load {}, requestException error: {}".format(link, e))
+            logging.error('Failed to load {}, requestException error: {}'.format(link, e))
 
 
 class Command(BaseCommand):
@@ -45,9 +45,9 @@ class Command(BaseCommand):
             response.raise_for_status()
             payload = response.json()
         except requests.ConnectionError as e:
-            logging.error("Connection error: {}".format(e))
+            logging.error('Connection error: {}'.format(e))
         except requests.RequestException as e:
-            logging.error("RequestException error: {}".format(e))
+            logging.error('RequestException error: {}'.format(e))
         place, created = TourCompany.objects.get_or_create(
             title=payload['title'],
             description_short=payload['description_short'],
@@ -57,8 +57,8 @@ class Command(BaseCommand):
 
         )
         if created:
-            logging.info("Successfully created place:{}".format(place))
+            logging.info('Successfully created place:{}'.format(place))
             create_images(place, payload['imgs'])
         else:
-            logging.info("Place already exists:{}".format(place))
+            logging.info('Place already exists:{}'.format(place))
             return
