@@ -3,28 +3,28 @@ from tinymce.models import HTMLField
 
 
 class TourCompany(models.Model):
-    title = models.CharField(max_length=255)
-    description_short = models.TextField()
-    description_long = HTMLField()
-    lng = models.DecimalField(max_digits=20, decimal_places=15)
-    lat = models.DecimalField(max_digits=20, decimal_places=15)
+    title = models.CharField(max_length=255, verbose_name='Название')
+    short_description = models.TextField(null=True, blank=True, verbose_name='Краткое описание')
+    long_description = HTMLField(null=True, blank=True, verbose_name='Подробное описание')
+    lng = models.DecimalField(max_digits=20, decimal_places=15, verbose_name='Долгота')
+    lat = models.DecimalField(max_digits=20, decimal_places=15, verbose_name='Широта')
 
     class Meta:
-        verbose_name = 'Tour Company'
-        verbose_name_plural = 'Tour Companies'
+        verbose_name = 'Локация'
+        verbose_name_plural = 'Локации'
 
     def __str__(self):
         return self.title
 
 
 class TourImage(models.Model):
-    tour_company = models.ForeignKey(TourCompany, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField()
-    position = models.PositiveIntegerField()
+    tour_company = models.ForeignKey(TourCompany, related_name='images', on_delete=models.CASCADE, verbose_name='Локация')
+    image = models.ImageField(verbose_name='Фото')
+    position = models.PositiveIntegerField(verbose_name='Позиция', db_index=True, blank=True, default=0)
 
     class Meta:
-        verbose_name = 'Tour Image'
-        verbose_name_plural = 'Tour Images'
+        verbose_name = 'Фото локации'
+        verbose_name_plural = 'Фото локаций'
         ordering = ('position',)
 
     def __str__(self):
