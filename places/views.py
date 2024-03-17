@@ -48,4 +48,3 @@ def get_place(request, place_id):
             'ensure_ascii': False
         }
     )
-

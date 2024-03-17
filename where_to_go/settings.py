@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -10,7 +9,6 @@ env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -20,8 +18,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.str('DEBUG', 'False')
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS',[])
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [])
 
 # Application definition
 
@@ -53,7 +50,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR,],
+        'DIRS': [TEMPLATE_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,7 +65,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -78,7 +74,6 @@ DATABASES = {
         'NAME': BASE_DIR / env.str('DATABASE_NAME', 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -98,7 +93,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -109,7 +103,6 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -129,7 +122,6 @@ MEDIA_ROOT = env.str('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 LOGGING_DIR = 'logging'
 if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
@@ -141,7 +133,7 @@ LOGGING = {
         'file': {
             'level': env.str('DJANGO_LOG_LEVEL', 'INFO'),
             'class': 'logging.FileHandler',
-            'filename':os.path.join(LOGGING_DIR, env.str('DJANGO_LOG_FILE', 'debug.log')),
+            'filename': os.path.join(LOGGING_DIR, env.str('DJANGO_LOG_FILE', 'debug.log')),
         },
     },
     'loggers': {
